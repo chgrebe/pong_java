@@ -16,15 +16,15 @@ import javax.swing.KeyStroke;
 import pong.constants.Const;
 import pong.mouse_control.MouseControl;
 
-public class Sim implements Runnable {
+public class Pong implements Runnable {
 
-	private static Sim me = null;
+	private static Pong me = null;
 
-	public static Sim get() {
+	public static Pong get() {
 		if (me == null) {
-			synchronized (Sim.class) {
+			synchronized (Pong.class) {
 				if (me == null) {
-					me = new Sim();
+					me = new Pong();
 				}
 			}
 		}
@@ -43,8 +43,8 @@ public class Sim implements Runnable {
 
 	boolean running = true;
 
-	private Sim() {
-		frame = new JFrame("Basic Sim");
+	private Pong() {
+		frame = new JFrame("Basic Pong");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// frame.pack();
 		frame.setSize(new Dimension(Const.GUI_WIDTH.intValue(), Const.GUI_HEIGHT.intValue()));

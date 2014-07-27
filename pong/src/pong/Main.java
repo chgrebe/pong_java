@@ -3,7 +3,7 @@ package pong;
 public class Main {
 
 	public static void main(String[] args) {
-		Sim sim = Sim.get();
+		Pong sim = Pong.get();
 		new Thread(sim).start();
 	}
 
