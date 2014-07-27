@@ -31,6 +31,7 @@ public class Pong implements Runnable {
 		return me;
 	}
 
+	public JPanel panel;
 	public Canvas canvas;
 	public JFrame frame;
 
@@ -51,7 +52,7 @@ public class Pong implements Runnable {
 		frame.setResizable(false);
 		frame.setVisible(true);
 
-		final JPanel panel = (JPanel) frame.getContentPane();
+		panel = (JPanel) frame.getContentPane();
 		panel.setPreferredSize(new Dimension(Const.GUI_WIDTH.intValue(), Const.GUI_HEIGHT.intValue()));
 		panel.setLayout(null);
 		panel.setSize(new Dimension(Const.GUI_WIDTH.intValue(), Const.GUI_HEIGHT.intValue()));
@@ -69,7 +70,6 @@ public class Pong implements Runnable {
 				x = x - 20 > 0 ? x - 20 : 0;
 			}
 		};
-
 		final Action p1MoveRight = new AbstractAction() {
 			/**
 			 * 
