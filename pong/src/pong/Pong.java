@@ -39,7 +39,7 @@ public class Pong implements Runnable {
 
 	BufferStrategy bufferStrategy;
 
-	long desiredDeltaLoop = (1000 * 1000 * 1000) / Const.SIM_DESIRED_FPS.intValue();
+	long desiredGameDeltaLoop = (1000 * 1000 * 1000) / Const.GAME_DESIRED_FPS.intValue();
 
 	boolean running = true;
 
@@ -114,22 +114,21 @@ public class Pong implements Runnable {
 
 			lastUpdateTime = currentUpdateTime;
 			currentUpdateTime = System.nanoTime();
-			int deltaTime = (int) (currentUpdateTime - lastUpdateTime);
-			final double ticksToUpdate = Math.ceil(Double.valueOf(deltaTime).doubleValue()
-					/ (Const.SIM_TICKS_PER_SECOND.doubleValue() * 1000 * 1000));
-			update(ticksToUpdate);
+//			int deltaTime = (int) (currentUpdateTime - lastUpdateTime);
+//			TODO: hier weitermachen
+//			update(ticksToUpdate);
 			System.out.print((currentUpdateTime - lastUpdateTime) + ", ");
 
 			endLoopTime = System.nanoTime();
 			deltaLoop = endLoopTime - beginLoopTime;
-			System.out.println(deltaLoop + ", " + desiredDeltaLoop);
+			System.out.println(deltaLoop + ", " + desiredGameDeltaLoop);
 
-			if (deltaLoop > desiredDeltaLoop) {
+			if (deltaLoop > desiredGameDeltaLoop) {
 				// Do nothing. We are already late.
 			} else {
 				try {
-					System.out.println((desiredDeltaLoop - deltaLoop) / (1000 * 1000));
-					Thread.sleep((desiredDeltaLoop - deltaLoop) / (1000 * 1000));
+					System.out.println((desiredGameDeltaLoop - deltaLoop) / (1000 * 1000));
+					Thread.sleep((desiredGameDeltaLoop - deltaLoop) / (1000 * 1000));
 				} catch (final InterruptedException e) {
 					// Do nothing
 				}
