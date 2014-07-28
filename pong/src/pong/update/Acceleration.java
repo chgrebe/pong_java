@@ -2,22 +2,17 @@ package pong.update;
 
 public class Acceleration {
 
-	public double x;
-	public double y;
+	double direction;
+	double speed;
 
 	public Acceleration() {
-		x = 0;
-		y = 0;
-	}
-	
-	public Acceleration(final double x, final double y) {
-		this.x = x;
-		this.y = y;
+		direction = 0;
+		speed = 0;
 	}
 
-	public void accelerate(final double x, final double y) {
-		this.x += x;
-		this.y += y;
+	public Acceleration(final double direction, final double speed) {
+		this.direction = direction;
+		this.speed = speed;
 	}
 
 }

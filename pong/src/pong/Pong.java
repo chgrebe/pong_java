@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferStrategy;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -13,35 +12,41 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import pong.constants.Const;
+import pong.game_objects.Ball;
+import pong.game_objects.Paddle;
 import pong.mouse_control.MouseControl;
 
 public class Pong implements Runnable {
 
-	private static double accumulatorUpdate = 0.0;
-	private static BufferStrategy bufferStrategy;
-	private static Canvas canvas;
-	private static double currentRender;
-	private static double deltaRender;
-	private static JFrame frame;
-	private static double lastRender = System.currentTimeMillis();
-	private static double lastUpdate = System.currentTimeMillis();
+	public static double accumulatorUpdate = 0.0;
+	public static Ball ball = new Ball();
+	public static BufferStrategy bufferStrategy;
+	public static Canvas canvas;
+	public static double currentRender;
+	public static double deltaRender;
+	public static JFrame frame;
+	public static double lastRender = System.currentTimeMillis();
+	public static double lastUpdate = System.currentTimeMillis();
+	public static boolean notFinished = true;
+	public static Paddle paddleBot;
+	public static Paddle paddleTop;
+
+	public static JPanel panel;
+	public static double updateCurrent;
+	public static double updateDelta;
+
 	private static Pong me = new Pong();
-	private static boolean notFinished = true;
-	private static JPanel panel;
-	private static double updateCurrent;
-	private static double updateDelta;
 
 	public static Pong get() {
 		return me;
 	}
 
 	// TESTING
-	private float x, y = 0;
+	public float x, y = 0;
 
 	private Pong() {
 		frame = new JFrame("Basic Pong");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(new Dimension(Const.GUI_WIDTH.intValue(), Const.GUI_HEIGHT.intValue()));
 		frame.setResizable(false);
 		frame.setVisible(true);
 
@@ -88,7 +93,10 @@ public class Pong implements Runnable {
 		canvas.createBufferStrategy(2);
 		bufferStrategy = canvas.getBufferStrategy();
 
+		frame.pack();
 		canvas.requestFocus();
+
+		setObjects();
 	}
 
 	@Override
@@ -108,7 +116,7 @@ public class Pong implements Runnable {
 
 			// System.out.println(accumulator);
 			while (accumulatorUpdate >= desiredGameDelta) {
-				System.out.printf("Time since last update: %f%n", Double.valueOf(accumulatorUpdate));
+//				System.out.printf("Time since last update: %f%n", Double.valueOf(accumulatorUpdate));
 				update(desiredGameDelta);
 				accumulatorUpdate -= desiredGameDelta;
 				try {
@@ -123,7 +131,7 @@ public class Pong implements Runnable {
 			deltaRender = currentRender - lastRender;
 
 			if (deltaRender >= desiredGUIDelta) {
-				System.out.printf("Time since last render: %f%n", Double.valueOf(deltaRender));
+//				System.out.printf("Time since last render: %f%n", Double.valueOf(deltaRender));
 				render();
 				lastRender = currentRender;
 				try {
@@ -133,6 +141,7 @@ public class Pong implements Runnable {
 					e.printStackTrace();
 				}
 			}
+			break;
 		}
 
 	}
@@ -145,10 +154,30 @@ public class Pong implements Runnable {
 		bufferStrategy.show();
 	}
 
+	private void setObjects() {
+		ball = new Ball();
+
+		final int x = Const.GUI_WIDTH.intValue() / 2 - (Const.PADDLE_WIDTH.intValue() / 2);
+		final int topY = Const.PADDLE_VERTICAL_DISTANCE.intValue();
+		paddleTop = new Paddle(x, topY);
+
+		final int botY = Const.GUI_HEIGHT.intValue() - Const.PADDLE_VERTICAL_DISTANCE.intValue()
+				- Const.PADDLE_HEIGHT.intValue();
+		paddleBot = new Paddle(x, botY);
+
+//		System.out.printf("Paddle init:%nX: %d%ntopY: %d%nbotY: %d%n", x, topY, botY);
+//		System.out.println("GUI_HEIGHT: " + Const.GUI_HEIGHT);
+//		System.out.println("PADDLE_HEIGHT: " + Const.PADDLE_HEIGHT);
+	}
+
 	/**
 	 * Rewrite this method for your game
 	 */
 	protected void render(final Graphics2D g) {
+		ball.draw(g);
+		paddleBot.draw(g);
+		paddleTop.draw(g);
+
 		g.fillRect((int) x, (int) y, 200, 200);
 	}
 
@@ -156,6 +185,9 @@ public class Pong implements Runnable {
 	 * Rewrite this method for your game
 	 */
 	protected void update(final double dt) {
+		ball.update();
+		paddleBot.update();
+		paddleTop.update();
 
 		x += dt * 0.1;
 		y += dt * 0.1;

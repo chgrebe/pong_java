@@ -14,7 +14,7 @@ public abstract class PongObject {
 	public int x;
 	public int y;
 
-	public abstract void render(final Graphics2D g);
+	public abstract void draw(final Graphics2D g);
 
 	public abstract void update();
 
