@@ -116,7 +116,8 @@ public class Pong implements Runnable {
 
 			// System.out.println(accumulator);
 			while (accumulatorUpdate >= desiredGameDelta) {
-//				System.out.printf("Time since last update: %f%n", Double.valueOf(accumulatorUpdate));
+				// System.out.printf("Time since last update: %f%n",
+				// Double.valueOf(accumulatorUpdate));
 				update(desiredGameDelta);
 				accumulatorUpdate -= desiredGameDelta;
 				try {
@@ -131,7 +132,8 @@ public class Pong implements Runnable {
 			deltaRender = currentRender - lastRender;
 
 			if (deltaRender >= desiredGUIDelta) {
-//				System.out.printf("Time since last render: %f%n", Double.valueOf(deltaRender));
+				// System.out.printf("Time since last render: %f%n",
+				// Double.valueOf(deltaRender));
 				render();
 				lastRender = currentRender;
 				try {
@@ -165,9 +167,10 @@ public class Pong implements Runnable {
 				- Const.PADDLE_HEIGHT.intValue();
 		paddleBot = new Paddle(x, botY);
 
-//		System.out.printf("Paddle init:%nX: %d%ntopY: %d%nbotY: %d%n", x, topY, botY);
-//		System.out.println("GUI_HEIGHT: " + Const.GUI_HEIGHT);
-//		System.out.println("PADDLE_HEIGHT: " + Const.PADDLE_HEIGHT);
+		// System.out.printf("Paddle init:%nX: %d%ntopY: %d%nbotY: %d%n", x,
+		// topY, botY);
+		// System.out.println("GUI_HEIGHT: " + Const.GUI_HEIGHT);
+		// System.out.println("PADDLE_HEIGHT: " + Const.PADDLE_HEIGHT);
 	}
 
 	/**
