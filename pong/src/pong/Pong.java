@@ -21,15 +21,15 @@ public class Pong implements Runnable {
 	private static BufferStrategy bufferStrategy;
 	private static Canvas canvas;
 	private static double currentRender;
-	private static double updateCurrent;
 	private static double deltaRender;
-	private static double updateDelta;
 	private static JFrame frame;
 	private static double lastRender = System.currentTimeMillis();
 	private static double lastUpdate = System.currentTimeMillis();
+	private static Pong me = new Pong();
 	private static boolean notFinished = true;
 	private static JPanel panel;
-	private static Pong me = new Pong();
+	private static double updateCurrent;
+	private static double updateDelta;
 
 	public static Pong get() {
 		return me;
@@ -108,12 +108,12 @@ public class Pong implements Runnable {
 
 			// System.out.println(accumulator);
 			while (accumulatorUpdate >= desiredGameDelta) {
-				System.out.printf("Time since last update: %f%n", Double.valueOf(updateDelta));
+				System.out.printf("Time since last update: %f%n", Double.valueOf(accumulatorUpdate));
 				update(desiredGameDelta);
 				accumulatorUpdate -= desiredGameDelta;
 				try {
 					Thread.sleep(0);
-				} catch (InterruptedException e) {
+				} catch (final InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -123,12 +123,12 @@ public class Pong implements Runnable {
 			deltaRender = currentRender - lastRender;
 
 			if (deltaRender >= desiredGUIDelta) {
-				System.out.println("Time since last render: " + deltaRender);
+				System.out.printf("Time since last render: %f%n", Double.valueOf(deltaRender));
 				render();
 				lastRender = currentRender;
 				try {
 					Thread.sleep(0);
-				} catch (InterruptedException e) {
+				} catch (final InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
