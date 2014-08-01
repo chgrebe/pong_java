@@ -2,11 +2,12 @@ package pong.game_objects;
 
 import java.awt.Graphics2D;
 
+import pong.Pong;
 import pong.constants.Const;
 
-public class Paddle extends PongObject {
+public class PaddleTop extends PongObject {
 
-	public Paddle(final int x, final int y) {
+	public PaddleTop(final int x, final int y) {
 		this.x = x;
 		this.y = y;
 		doubleX = x;
@@ -23,7 +24,12 @@ public class Paddle extends PongObject {
 
 	@Override
 	public void update() {
-
+		
+		if (Pong.p2LeftPressed) {
+			x -= 5;
+		} else if (Pong.p2RightPressed) {
+			x += 5;
+		}
 	}
 
 }

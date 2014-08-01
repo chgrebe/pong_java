@@ -13,6 +13,7 @@ public abstract class PongObject {
 	public int width;
 	public int x;
 	public int y;
+	
 
 	public abstract void draw(final Graphics2D g);
 

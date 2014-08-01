@@ -1,4 +1,4 @@
-package pong.mouse_control;
+package pong.controls;
 
 import java.awt.event.MouseAdapter;
 
