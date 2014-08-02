@@ -11,13 +11,13 @@ import pong.constants.Const;
 public class PongKeyListener implements KeyListener, ActionListener {
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(final KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 			Pong.p1LeftPressed = true;
@@ -38,25 +38,25 @@ public class PongKeyListener implements KeyListener, ActionListener {
 		case KeyEvent.VK_SPACE:
 			Pong.notPaused = Pong.notPaused ? false : true;
 			break;
-			
+
 		case KeyEvent.VK_ADD:
-			if(Pong.gameSpeed + Const.GAME_SPEED_STEP_SIZE.doubleValue() < Const.GAME_SPEED_MAX.doubleValue()) {
+			if (Pong.gameSpeed + Const.GAME_SPEED_STEP_SIZE.doubleValue() < Const.GAME_SPEED_MAX.doubleValue()) {
 				Pong.gameSpeed += Const.GAME_SPEED_STEP_SIZE.doubleValue();
 			} else {
 				Pong.gameSpeed = Const.GAME_SPEED_MAX.doubleValue();
 			}
 			System.out.printf("Gamespeed increased to %f.%n", Double.valueOf(Pong.gameSpeed));
 			break;
-		
+
 		case KeyEvent.VK_SUBTRACT:
-			if(Pong.gameSpeed - Const.GAME_SPEED_STEP_SIZE.doubleValue() > Const.GAME_SPEED_MIN.doubleValue()) {
+			if (Pong.gameSpeed - Const.GAME_SPEED_STEP_SIZE.doubleValue() > Const.GAME_SPEED_MIN.doubleValue()) {
 				Pong.gameSpeed -= Const.GAME_SPEED_STEP_SIZE.doubleValue();
 			} else {
 				Pong.gameSpeed = Const.GAME_SPEED_MIN.doubleValue();
 			}
 			System.out.printf("Gamespeed decreased to %f.%n", Double.valueOf(Pong.gameSpeed));
 			break;
-		
+
 		default:
 			break;
 		}
@@ -64,7 +64,7 @@ public class PongKeyListener implements KeyListener, ActionListener {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(final KeyEvent e) {
 		// System.out.println(e);
 
 		switch (e.getKeyCode()) {
@@ -84,7 +84,7 @@ public class PongKeyListener implements KeyListener, ActionListener {
 		case KeyEvent.VK_D:
 			Pong.p2RightPressed = false;
 			break;
-		
+
 		default:
 			break;
 		}
@@ -92,7 +92,7 @@ public class PongKeyListener implements KeyListener, ActionListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(final KeyEvent e) {
 		// TODO Auto-generated method stub
 
 	}

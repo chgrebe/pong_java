@@ -2,18 +2,15 @@ package pong.game_objects;
 
 import java.awt.Graphics2D;
 
-import pong.update.Acceleration;
+import pong.update.Vector2D;
 
 public abstract class PongObject {
 
-	public Acceleration acceleration = new Acceleration();
-	public double doubleX;
-	public double doubleY;
+	public Vector2D acceleration;
 	public int height;
 	public int width;
-	public int x;
-	public int y;
-	
+	public double x;
+	public double y;
 
 	public abstract void draw(final Graphics2D g);
 

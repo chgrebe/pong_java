@@ -23,20 +23,20 @@ public class Pong implements Runnable {
 	public static double currentRender;
 	public static double deltaRender;
 	public static JFrame frame;
+	public static double gameSpeed = 1.0;
 	public static boolean notFinished = true;
 	public static boolean notPaused = true;
+	public static boolean p1LeftPressed = false;
+
+	public static boolean p1RightPressed = false;
+	public static boolean p2LeftPressed = false;
+	public static boolean p2RightPressed = false;
+
 	public static PaddleBot paddleBot;
 	public static PaddleTop paddleTop;
-
 	public static JPanel panel;
 	public static double updateCurrent;
 	public static double updateDelta;
-
-	public static double gameSpeed = 1.0;
-	public static boolean p1RightPressed = false;
-	public static boolean p1LeftPressed = false;
-	public static boolean p2RightPressed = false;
-	public static boolean p2LeftPressed = false;
 
 	private static Pong me = new Pong();
 
