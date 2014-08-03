@@ -21,6 +21,9 @@ public abstract class PongMoveableObject extends PongObject {
 	}
 
 	public void slow(final double friction) {
+		if (friction <= 0) {
+			return;
+		}
 		if (acceleration.length > friction) {
 			acceleration.length -= friction;
 		} else {

@@ -20,9 +20,11 @@ import pong.game_objects.PaddleBot;
 public class Pong implements Runnable {
 
 	private static Pong me = new Pong();
+
 	public static Pong get() {
 		return me;
 	}
+
 	public Ball ball = new Ball();
 	public BufferStrategy bufferStrategy;
 	public Canvas canvas;
@@ -60,7 +62,7 @@ public class Pong implements Runnable {
 		panel.add(canvas);
 		canvas.createBufferStrategy(2);
 		bufferStrategy = canvas.getBufferStrategy();
-
+		frame.setBounds(250, 100, Const.GUI_WIDTH.intValue(), Const.GUI_HEIGHT.intValue());
 		frame.pack();
 		canvas.requestFocus();
 
@@ -97,13 +99,21 @@ public class Pong implements Runnable {
 		double currentUpdate;
 		double deltaRender;
 		double deltaUpdate;
-		double lastRender = System.currentTimeMillis();
-		double lastUpdate = System.currentTimeMillis();
+		double lastRender;
+		double lastUpdate;
 
 		final double desiredGUIDelta = (1000) / Const.GUI_DESIRED_FPS.doubleValue();
 		final double desiredGameDelta = (1000) / Const.GAME_DESIRED_FPS.doubleValue();
 		System.out.println("Desired Game Delta: " + desiredGameDelta);
 		System.out.println("Desired GUI Delta: " + desiredGUIDelta);
+		render();
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+
+		}
+		lastRender = System.currentTimeMillis();
+		lastUpdate = System.currentTimeMillis();
 
 		while (notFinished) {
 			if (notPaused) {
