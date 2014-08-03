@@ -26,38 +26,30 @@ public class PaddleBot extends PongObject {
 	public void update() {
 
 		if (Pong.p1LeftPressed) {
-			moveLeft();
+			accelerate(new Vector2D(180, Const.PADDLE_ACCELERATION.doubleValue()));
 		} else if (Pong.p1RightPressed) {
-			moveRight();
+			accelerate(new Vector2D(0, Const.PADDLE_ACCELERATION.doubleValue()));
+		} else if (acceleration.length > 0) {
+			slow();
 		}
 	}
 
-	private void moveLeft() {
-		System.out.println(acceleration);
-		acceleration = acceleration.add(new Vector2D(180, Const.PADDLE_ACCELERATION.doubleValue()));
+
+	private void slow() {
+		if (acceleration.length > Const.PADDLE_FRICTION.doubleValue()) {
+			acceleration.length -= Const.PADDLE_FRICTION.doubleValue();
+		} else {
+			acceleration.length = 0;
+		}
+	}
+
+	private void accelerate(Vector2D v) {
+		acceleration = acceleration.add(v);
 		if (acceleration.length > Const.PADDLE_MAX_SPEED.doubleValue()) {
 			acceleration.length = Const.PADDLE_MAX_SPEED.doubleValue();
 		}
-		// Point newPosition = acceleration.getTargetFromPoint((int) x, (int)
-		// y);
-		// if (newPosition.x > 0) {
-		// x = newPosition.x;
-		// // y = newPosition.y;
-		// } else {
-		// x = 0;
-		// // y = newPosition.y;
-		// }
-
 	}
 
-	private void moveRight() {
-		acceleration = acceleration.add(new Vector2D(0, Const.PADDLE_ACCELERATION.doubleValue()));
-		if (acceleration.length > Const.PADDLE_MAX_SPEED.doubleValue()) {
-			acceleration.length = Const.PADDLE_MAX_SPEED.doubleValue();
-		}
-		// Point newPosition = acceleration.getTargetFromPoint((int) x, (int)
-		// y);
-		// x = newPosition.x;
-		// y = newPosition.y;
-	}
+
+
 }

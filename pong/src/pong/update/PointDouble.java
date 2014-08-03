@@ -10,8 +10,10 @@ public class PointDouble {
 	}
 
 	public static PointDouble parseFrom(final Vector2D v) {
-		final double x = Math.cos(Math.toRadians(v.angle)) * v.length;
-		final double y = Math.sin(Math.toRadians(v.angle)) * v.length;
+		double x = Math.cos(Math.toRadians(v.angle)) * v.length;
+		double y = Math.sin(Math.toRadians(v.angle)) * v.length;
+		x = (double)Math.round(x * 1000 * 1000 ) / (1000 * 1000);
+		y = (double)Math.round(y * 1000 * 1000 ) / (1000 * 1000);
 
 		return new PointDouble(x, y);
 	}
@@ -25,10 +27,7 @@ public class PointDouble {
 	}
 
 	public PointDouble add(final PointDouble p) {
-		final double newX = x + p.x;
-		final double newY = y + p.y;
-
-		return new PointDouble(newX, newY);
+		return PointDouble.add(this, p);
 	}
 
 	@Override

@@ -13,8 +13,22 @@ public class Vector2D {
 	}
 
 	public static Vector2D parseFrom(final PointDouble p) {
-		final double length = Math.sqrt((p.x * p.x) + (p.y * p.y));
-		final double angle = Math.sinh(p.y / length);
+		if (p.x == 0 && p.y == 0) {
+			return new Vector2D(0, 0);
+		}
+
+		final double length = Math.abs(Math.sqrt((p.x * p.x) + (p.y * p.y)));
+		double angle = Math.toDegrees(Math.asin(p.y / length));
+
+		// top left in coordinate system
+		if (p.x < 0 && p.y >= 0)
+			angle = 180 - angle;
+		// bottom left in coordinate system
+		else if (p.x <= 0 && p.y < 0)
+			angle = 180 + Math.abs(angle);
+		// bottom right in coordinate system
+		else if (p.x > 0 && p.y < 0)
+			angle = 360 - Math.abs(angle);
 
 		return new Vector2D(angle, length);
 	}
@@ -28,11 +42,7 @@ public class Vector2D {
 	}
 
 	public Vector2D add(final Vector2D v) {
-		final PointDouble p1 = PointDouble.parseFrom(this);
-		final PointDouble p2 = PointDouble.parseFrom(v);
-		final PointDouble addedPoint = p1.add(p2);
-
-		return parseFrom(addedPoint);
+		return Vector2D.add(this, v);
 	}
 
 	@Override

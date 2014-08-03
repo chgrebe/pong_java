@@ -21,8 +21,8 @@ public class PointDoubleTest {
 		final PointDouble p = new PointDouble(-3.5, 7.8);
 		final PointDouble p2 = new PointDouble(2.6, -6.2);
 
-		assertEquals(-0.9, p.add(p2).x, 0.000000000000001);
-		assertEquals(1.6, p.add(p2).y, 0.000000000000001);
+		assertEquals(-0.9, p.add(p2).x, 0.000001);
+		assertEquals(1.6, p.add(p2).y, 0.000001);
 	}
 
 	@Test
@@ -50,8 +50,8 @@ public class PointDoubleTest {
 
 		p1 = new PointDouble(-3.5, 7.8);
 		p2 = new PointDouble(2.6, -6.2);
-		assertEquals(-0.9, PointDouble.add(p1, p2).x, 0.000000000000001);
-		assertEquals(1.6, PointDouble.add(p1, p2).y, 0.000000000000001);
+		assertEquals(-0.9, PointDouble.add(p1, p2).x, 0.000001);
+		assertEquals(1.6, PointDouble.add(p1, p2).y, 0.000001);
 
 		p1 = new PointDouble(7, 8);
 		p2 = new PointDouble(-7, -8);
@@ -64,52 +64,52 @@ public class PointDoubleTest {
 		final double sin60 = cos30;
 
 		Vector2D v = new Vector2D(30, 1);
-		assertEquals(cos30, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(0.5, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(cos30, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(0.5, PointDouble.parseFrom(v).y, 0.000001);
 
 		v.length = 1.5;
-		assertEquals(cos30 * 1.5, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(0.75, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(cos30 * 1.5, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(0.75, PointDouble.parseFrom(v).y, 0.000001);
 
 		v = new Vector2D(60, 1);
-		assertEquals(0.5, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(sin60, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(0.5, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(sin60, PointDouble.parseFrom(v).y, 0.000001);
 
 		v = new Vector2D(90, 1);
-		assertEquals(0, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(1, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(0, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(1, PointDouble.parseFrom(v).y, 0.000001);
 
 		v = new Vector2D(120, 1);
-		assertEquals(-0.5, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(sin60, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(-0.5, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(sin60, PointDouble.parseFrom(v).y, 0.000001);
 
 		v = new Vector2D(150, 1);
-		assertEquals(-cos30, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(0.5, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(-cos30, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(0.5, PointDouble.parseFrom(v).y, 0.000001);
 
 		v = new Vector2D(180, 1);
-		assertEquals(-1, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(0, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(-1, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(0, PointDouble.parseFrom(v).y, 0.000001);
 
 		v = new Vector2D(210, 1);
-		assertEquals(-cos30, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(-0.5, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(-cos30, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(-0.5, PointDouble.parseFrom(v).y, 0.000001);
 
 		v = new Vector2D(240, 1);
-		assertEquals(-0.5, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(-sin60, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(-0.5, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(-sin60, PointDouble.parseFrom(v).y, 0.000001);
 
 		v = new Vector2D(270, 1);
-		assertEquals(0, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(-1, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(0, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(-1, PointDouble.parseFrom(v).y, 0.000001);
 
 		v = new Vector2D(300, 1);
-		assertEquals(0.5, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(-sin60, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(0.5, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(-sin60, PointDouble.parseFrom(v).y, 0.000001);
 
 		v = new Vector2D(330, 1);
-		assertEquals(cos30, PointDouble.parseFrom(v).x, 0.000000000000001);
-		assertEquals(-0.5, PointDouble.parseFrom(v).y, 0.000000000000001);
+		assertEquals(cos30, PointDouble.parseFrom(v).x, 0.000001);
+		assertEquals(-0.5, PointDouble.parseFrom(v).y, 0.000001);
 	}
 
 	@Test
