@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import pong.Pong;
-import pong.constants.Const;
 
 public class PongKeyListener implements KeyListener, ActionListener {
 
@@ -20,41 +19,31 @@ public class PongKeyListener implements KeyListener, ActionListener {
 	public void keyPressed(final KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			Pong.p1LeftPressed = true;
+			Pong.get().pressedKeys.put("p1Left", Boolean.valueOf(true));
 			break;
 
 		case KeyEvent.VK_RIGHT:
-			Pong.p1RightPressed = true;
+			Pong.get().pressedKeys.put("p1Right", Boolean.valueOf(true));
 			break;
 
 		case KeyEvent.VK_A:
-			Pong.p2LeftPressed = true;
+			Pong.get().pressedKeys.put("p2Left", Boolean.valueOf(true));
 			break;
 
 		case KeyEvent.VK_D:
-			Pong.p2RightPressed = true;
+			Pong.get().pressedKeys.put("p2Right", Boolean.valueOf(true));
 			break;
 
 		case KeyEvent.VK_SPACE:
-			Pong.notPaused = Pong.notPaused ? false : true;
+			Pong.get().pauseGame();
 			break;
 
 		case KeyEvent.VK_ADD:
-			if (Pong.gameSpeed + Const.GAME_SPEED_STEP_SIZE.doubleValue() < Const.GAME_SPEED_MAX.doubleValue()) {
-				Pong.gameSpeed += Const.GAME_SPEED_STEP_SIZE.doubleValue();
-			} else {
-				Pong.gameSpeed = Const.GAME_SPEED_MAX.doubleValue();
-			}
-			System.out.printf("Gamespeed increased to %f.%n", Double.valueOf(Pong.gameSpeed));
+			Pong.get().increaseGameSpeed();
 			break;
 
 		case KeyEvent.VK_SUBTRACT:
-			if (Pong.gameSpeed - Const.GAME_SPEED_STEP_SIZE.doubleValue() > Const.GAME_SPEED_MIN.doubleValue()) {
-				Pong.gameSpeed -= Const.GAME_SPEED_STEP_SIZE.doubleValue();
-			} else {
-				Pong.gameSpeed = Const.GAME_SPEED_MIN.doubleValue();
-			}
-			System.out.printf("Gamespeed decreased to %f.%n", Double.valueOf(Pong.gameSpeed));
+			Pong.get().decreaseGameSpeed();
 			break;
 
 		default:
@@ -70,19 +59,19 @@ public class PongKeyListener implements KeyListener, ActionListener {
 		switch (e.getKeyCode()) {
 
 		case KeyEvent.VK_LEFT:
-			Pong.p1LeftPressed = false;
+			Pong.get().pressedKeys.put("p1Left", Boolean.valueOf(false));
 			break;
 
 		case KeyEvent.VK_RIGHT:
-			Pong.p1RightPressed = false;
+			Pong.get().pressedKeys.put("p1Right", Boolean.valueOf(false));
 			break;
 
 		case KeyEvent.VK_A:
-			Pong.p2LeftPressed = false;
+			Pong.get().pressedKeys.put("p2Left", Boolean.valueOf(false));
 			break;
 
 		case KeyEvent.VK_D:
-			Pong.p2RightPressed = false;
+			Pong.get().pressedKeys.put("p2Right", Boolean.valueOf(false));
 			break;
 
 		default:

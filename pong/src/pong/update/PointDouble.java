@@ -12,8 +12,8 @@ public class PointDouble {
 	public static PointDouble parseFrom(final Vector2D v) {
 		double x = Math.cos(Math.toRadians(v.angle)) * v.length;
 		double y = Math.sin(Math.toRadians(v.angle)) * v.length;
-		x = (double)Math.round(x * 1000 * 1000 ) / (1000 * 1000);
-		y = (double)Math.round(y * 1000 * 1000 ) / (1000 * 1000);
+		x = (double) Math.round(x * 1000 * 1000) / (1000 * 1000);
+		y = (double) Math.round(y * 1000 * 1000) / (1000 * 1000);
 
 		return new PointDouble(x, y);
 	}

@@ -4,11 +4,14 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import pong.constants.Const;
-import pong.controls.MouseControl;
+import pong.controls.PongMouseListener;
 import pong.controls.PongKeyListener;
 import pong.game_objects.Ball;
 import pong.game_objects.PaddleTop;
@@ -16,33 +19,23 @@ import pong.game_objects.PaddleBot;
 
 public class Pong implements Runnable {
 
-	public static double accumulatorUpdate = 0.0;
-	public static Ball ball = new Ball();
-	public static BufferStrategy bufferStrategy;
-	public static Canvas canvas;
-	public static double currentRender;
-	public static double currentUpdate;
-	public static double deltaRender;
-	public static double deltaUpdate;
-	public static JFrame frame;
-	public static double gameSpeed = 1.0;
-	public static boolean notFinished = true;
-
-	public static boolean notPaused = true;
-	public static boolean p1LeftPressed = false;
-	public static boolean p1RightPressed = false;
-
-	public static boolean p2LeftPressed = false;
-	public static boolean p2RightPressed = false;
-	public static PaddleBot paddleBot;
-	public static PaddleTop paddleTop;
-	public static JPanel panel;
-
 	private static Pong me = new Pong();
-
 	public static Pong get() {
 		return me;
 	}
+	public Ball ball = new Ball();
+	public BufferStrategy bufferStrategy;
+	public Canvas canvas;
+	public JFrame frame;
+	public double gameSpeed = 1.0;
+	public boolean notFinished = true;
+	public boolean notPaused = true;
+	public PaddleBot paddleBot;
+	public PaddleTop paddleTop;
+
+	public JPanel panel;
+
+	public Map<String, Boolean> pressedKeys;
 
 	// TESTING
 	public float x, y = 0;
@@ -56,45 +49,12 @@ public class Pong implements Runnable {
 		panel = (JPanel) frame.getContentPane();
 		panel.setPreferredSize(new Dimension(Const.GUI_WIDTH.intValue(), Const.GUI_HEIGHT.intValue()));
 		panel.setLayout(null);
-		panel.setSize(new Dimension(Const.GUI_WIDTH.intValue(), Const.GUI_HEIGHT.intValue()));
-
-		// panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),
-		// "P1MoveLeft");
-		// panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),
-		// "P1MoveRight");
-		//
-		// final Action p1MoveLeft = new AbstractAction() {
-		// /**
-		// *
-		// */
-		// private static final long serialVersionUID = -5769096915351940491L;
-		//
-		// @Override
-		// public void actionPerformed(final ActionEvent e) {
-		// x = x - 20 > 0 ? x - 20 : 0;
-		// }
-		// };
-		// final Action p1MoveRight = new AbstractAction() {
-		// /**
-		// *
-		// */
-		// private static final long serialVersionUID = -5374910769395440871L;
-		//
-		// @Override
-		// public void actionPerformed(final ActionEvent e) {
-		// x = x + 20 < Const.GUI_WIDTH.intValue() - 200 ? x + 20 :
-		// Const.GUI_WIDTH.intValue() - 200;
-		// }
-		// };
-		//
-		// panel.getActionMap().put("P1MoveLeft", p1MoveLeft);
-		// panel.getActionMap().put("P1MoveRight", p1MoveRight);
 
 		canvas = new Canvas();
 		canvas.setBounds(0, 0, Const.GUI_WIDTH.intValue(), Const.GUI_HEIGHT.intValue());
 		canvas.setIgnoreRepaint(true);
 
-		canvas.addMouseListener(new MouseControl());
+		canvas.addMouseListener(new PongMouseListener());
 		canvas.addKeyListener(new PongKeyListener());
 
 		panel.add(canvas);
@@ -105,11 +65,38 @@ public class Pong implements Runnable {
 		canvas.requestFocus();
 
 		setObjects();
+		setKeys();
+	}
+
+	public void decreaseGameSpeed() {
+		if (gameSpeed - Const.GAME_SPEED_STEP_SIZE.doubleValue() > Const.GAME_SPEED_MIN.doubleValue()) {
+			gameSpeed -= Const.GAME_SPEED_STEP_SIZE.doubleValue();
+		} else {
+			gameSpeed = Const.GAME_SPEED_MIN.doubleValue();
+		}
+		System.out.printf("Gamespeed decreased to %f.%n", Double.valueOf(gameSpeed));
+	}
+
+	public void increaseGameSpeed() {
+		if (gameSpeed + Const.GAME_SPEED_STEP_SIZE.doubleValue() < Const.GAME_SPEED_MAX.doubleValue()) {
+			gameSpeed += Const.GAME_SPEED_STEP_SIZE.doubleValue();
+		} else {
+			gameSpeed = Const.GAME_SPEED_MAX.doubleValue();
+		}
+		System.out.printf("Gamespeed increased to %f.%n", Double.valueOf(gameSpeed));
+	}
+
+	public void pauseGame() {
+		notPaused = notPaused ? false : true;
 	}
 
 	@Override
 	public void run() {
-
+		double accumulatorUpdate = 0.0;
+		double currentRender;
+		double currentUpdate;
+		double deltaRender;
+		double deltaUpdate;
 		double lastRender = System.currentTimeMillis();
 		double lastUpdate = System.currentTimeMillis();
 
@@ -128,7 +115,7 @@ public class Pong implements Runnable {
 				// System.out.println("accumulatorUpdate before update: " +
 				// accumulatorUpdate);
 				while (accumulatorUpdate >= desiredGameDelta / gameSpeed) {
-					update(desiredGameDelta);
+					update();
 					accumulatorUpdate -= (desiredGameDelta / gameSpeed);
 					// System.out.printf("Current accumulatorUpdate while updating: %f%n",
 					// Double.valueOf(accumulatorUpdate));
@@ -160,10 +147,13 @@ public class Pong implements Runnable {
 			} else {
 				try {
 					final long nextRenderIn = (long) Math.ceil(desiredGUIDelta - deltaRender);
-					final long nextUpdateIn = (long) Math.ceil(desiredGameDelta - accumulatorUpdate);
+					long nextUpdateIn = (long) Math.ceil(desiredGameDelta - accumulatorUpdate);
 					// System.out.println("Skipped rendering, instead sleeping for "
 					// + Math.min(nextRenderIn, nextUpdateIn) +
 					// "ms.");
+					if (nextUpdateIn < 0) {
+						nextUpdateIn = 1;
+					}
 
 					Thread.sleep(Math.min(nextRenderIn, nextUpdateIn));
 					// Thread.sleep(nextRenderIn);
@@ -183,6 +173,14 @@ public class Pong implements Runnable {
 		render(g);
 		g.dispose();
 		bufferStrategy.show();
+	}
+
+	private void setKeys() {
+		pressedKeys = new HashMap<>();
+		pressedKeys.put("p1Left", Boolean.valueOf(false));
+		pressedKeys.put("p1Right", Boolean.valueOf(false));
+		pressedKeys.put("p2Left", Boolean.valueOf(false));
+		pressedKeys.put("p2Right", Boolean.valueOf(false));
 	}
 
 	private void setObjects() {
@@ -217,15 +215,13 @@ public class Pong implements Runnable {
 	/**
 	 * Rewrite this method for your game
 	 */
-	protected void update(final double dt) {
+	protected void update() {
 		ball.update();
 		paddleBot.update();
 		paddleTop.update();
 
-		x += dt * 0.1;
-		y += dt * 0.1;
-		// System.out.println("x: " + x);
-
+		x += 0.6;
+		y += 0.6;
 		if (x > Const.GUI_WIDTH.intValue() - 200) {
 			x = 0;
 			y = 0;

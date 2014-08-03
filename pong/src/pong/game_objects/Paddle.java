@@ -22,4 +22,15 @@ public abstract class Paddle extends PongMoveableObject {
 		g.drawRect((int) pos.x, (int) pos.y, width, height);
 	}
 
+	protected void checkGameBorders() {
+		if (pos.x < 0) {
+			pos.x = 0;
+			acceleration.length = 0;
+		}
+		if (pos.x > Const.GUI_WIDTH.intValue() - 1 - width) {
+			pos.x = Const.GUI_WIDTH.intValue() - 1 - width;
+			acceleration.length = 0;
+		}
+	}
+
 }

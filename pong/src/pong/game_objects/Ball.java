@@ -11,8 +11,8 @@ public class Ball extends PongObject {
 		width = Const.BALL_DIAMETER.intValue();
 		height = Const.BALL_DIAMETER.intValue();
 
-		double x = Const.GUI_WIDTH.intValue() / 2 - (width / 2);
-		double y = Const.GUI_HEIGHT.intValue() / 2 - (height / 2);
+		final double x = Const.GUI_WIDTH.intValue() / 2 - (width / 2);
+		final double y = Const.GUI_HEIGHT.intValue() / 2 - (height / 2);
 		pos = new PointDouble(x, y);
 	}
 
