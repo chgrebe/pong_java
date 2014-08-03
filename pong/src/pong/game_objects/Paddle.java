@@ -3,13 +3,13 @@ package pong.game_objects;
 import java.awt.Graphics2D;
 
 import pong.constants.Const;
+import pong.update.PointDouble;
 import pong.update.Vector2D;
 
 public abstract class Paddle extends PongMoveableObject {
 
 	public Paddle(final double x, final double y) {
-		pos.x = x;
-		pos.y = y;
+		pos = new PointDouble(x, y);
 		acceleration = new Vector2D(0, 0);
 		width = Const.PADDLE_WIDTH.intValue();
 		height = Const.PADDLE_HEIGHT.intValue();

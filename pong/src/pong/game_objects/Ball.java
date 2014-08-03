@@ -3,6 +3,7 @@ package pong.game_objects;
 import java.awt.Graphics2D;
 
 import pong.constants.Const;
+import pong.update.PointDouble;
 
 public class Ball extends PongObject {
 
@@ -10,8 +11,9 @@ public class Ball extends PongObject {
 		width = Const.BALL_DIAMETER.intValue();
 		height = Const.BALL_DIAMETER.intValue();
 
-		pos.x = Const.GUI_WIDTH.intValue() / 2 - (width / 2);
-		pos.y = Const.GUI_HEIGHT.intValue() / 2 - (height / 2);
+		double x = Const.GUI_WIDTH.intValue() / 2 - (width / 2);
+		double y = Const.GUI_HEIGHT.intValue() / 2 - (height / 2);
+		pos = new PointDouble(x, y);
 	}
 
 	@Override
