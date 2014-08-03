@@ -21,22 +21,22 @@ public class Pong implements Runnable {
 	public static BufferStrategy bufferStrategy;
 	public static Canvas canvas;
 	public static double currentRender;
+	public static double currentUpdate;
 	public static double deltaRender;
+	public static double deltaUpdate;
 	public static JFrame frame;
 	public static double gameSpeed = 1.0;
 	public static boolean notFinished = true;
+
 	public static boolean notPaused = true;
 	public static boolean p1LeftPressed = false;
-
 	public static boolean p1RightPressed = false;
+
 	public static boolean p2LeftPressed = false;
 	public static boolean p2RightPressed = false;
-
 	public static PaddleBot paddleBot;
 	public static PaddleTop paddleTop;
 	public static JPanel panel;
-	public static double updateCurrent;
-	public static double updateDelta;
 
 	private static Pong me = new Pong();
 
@@ -120,10 +120,10 @@ public class Pong implements Runnable {
 
 		while (notFinished) {
 			if (notPaused) {
-				updateCurrent = System.currentTimeMillis();
-				updateDelta = updateCurrent - lastUpdate;
-				lastUpdate = updateCurrent;
-				accumulatorUpdate += updateDelta;
+				currentUpdate = System.currentTimeMillis();
+				deltaUpdate = currentUpdate - lastUpdate;
+				lastUpdate = currentUpdate;
+				accumulatorUpdate += deltaUpdate;
 
 				// System.out.println("accumulatorUpdate before update: " +
 				// accumulatorUpdate);
@@ -159,10 +159,15 @@ public class Pong implements Runnable {
 				}
 			} else {
 				try {
+					final long nextRenderIn = (long) Math.ceil(desiredGUIDelta - deltaRender);
+					final long nextUpdateIn = (long) Math.ceil(desiredGameDelta - accumulatorUpdate);
 					// System.out.println("Skipped rendering, instead sleeping for "
-					// + ((long) Math.ceil(desiredGUIDelta - deltaRender)) +
+					// + Math.min(nextRenderIn, nextUpdateIn) +
 					// "ms.");
-					Thread.sleep((long) Math.ceil((desiredGUIDelta) - deltaRender));
+
+					Thread.sleep(Math.min(nextRenderIn, nextUpdateIn));
+					// Thread.sleep(nextRenderIn);
+
 				} catch (final InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

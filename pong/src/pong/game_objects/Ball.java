@@ -10,13 +10,13 @@ public class Ball extends PongObject {
 		width = Const.BALL_DIAMETER.intValue();
 		height = Const.BALL_DIAMETER.intValue();
 
-		x = Const.GUI_WIDTH.intValue() / 2 - (width / 2);
-		y = Const.GUI_HEIGHT.intValue() / 2 - (height / 2);
+		pos.x = Const.GUI_WIDTH.intValue() / 2 - (width / 2);
+		pos.y = Const.GUI_HEIGHT.intValue() / 2 - (height / 2);
 	}
 
 	@Override
 	public void draw(final Graphics2D g) {
-		g.fillOval((int) x, (int) y, width, height);
+		g.fillOval((int) pos.x, (int) pos.y, width, height);
 
 	}
 
