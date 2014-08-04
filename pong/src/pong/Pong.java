@@ -4,7 +4,9 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -16,6 +18,7 @@ import pong.controls.PongKeyListener;
 import pong.game_objects.Ball;
 import pong.game_objects.PaddleTop;
 import pong.game_objects.PaddleBot;
+import pong.game_objects.PongObject;
 
 public class Pong implements Runnable {
 
@@ -26,14 +29,15 @@ public class Pong implements Runnable {
 	}
 
 	public Ball ball = new Ball();
+
+	public List<PongObject> ballObjects = new ArrayList<>();
 	public BufferStrategy bufferStrategy;
 	public Canvas canvas;
 	public JFrame frame;
-	public double gameSpeed = 1.0;
+	public double gameSpeed = 1.0;;
 	public boolean notFinished = true;
 	public boolean notPaused = true;
-	public PaddleBot paddleBot;
-	public PaddleTop paddleTop;
+	public List<PongObject> paddleObjects = new ArrayList<>();
 
 	public JPanel panel;
 
@@ -62,7 +66,7 @@ public class Pong implements Runnable {
 		panel.add(canvas);
 		canvas.createBufferStrategy(2);
 		bufferStrategy = canvas.getBufferStrategy();
-		frame.setBounds(250, 100, Const.GUI_WIDTH.intValue(), Const.GUI_HEIGHT.intValue());
+		frame.setBounds(250, 0, Const.GUI_WIDTH.intValue(), Const.GUI_HEIGHT.intValue());
 		frame.pack();
 		canvas.requestFocus();
 
@@ -194,20 +198,22 @@ public class Pong implements Runnable {
 	}
 
 	private void setObjects() {
+
 		ball = new Ball();
 
 		final int x = Const.GUI_WIDTH.intValue() / 2 - (Const.PADDLE_WIDTH.intValue() / 2);
 		final int topY = Const.PADDLE_VERTICAL_DISTANCE.intValue();
-		paddleTop = new PaddleTop(x, topY);
-
 		final int botY = Const.GUI_HEIGHT.intValue() - Const.PADDLE_VERTICAL_DISTANCE.intValue()
 				- Const.PADDLE_HEIGHT.intValue();
-		paddleBot = new PaddleBot(x, botY);
 
-		// System.out.printf("Paddle init:%nX: %d%ntopY: %d%nbotY: %d%n", x,
-		// topY, botY);
-		// System.out.println("GUI_HEIGHT: " + Const.GUI_HEIGHT);
-		// System.out.println("PADDLE_HEIGHT: " + Const.PADDLE_HEIGHT);
+		final PaddleTop paddleTop = new PaddleTop(x, topY);
+		final PaddleBot paddleBot = new PaddleBot(x, botY);
+
+		ballObjects.add(ball);
+
+		paddleObjects.add(paddleTop);
+		paddleObjects.add(paddleBot);
+
 	}
 
 	/**
@@ -215,10 +221,14 @@ public class Pong implements Runnable {
 	 */
 	protected void render(final Graphics2D g) {
 		// System.out.println("here");
-		ball.draw(g);
-		paddleBot.draw(g);
-		paddleTop.draw(g);
+		for (final PongObject ball : ballObjects) {
+			ball.draw(g);
+		}
+		for (final PongObject paddle : paddleObjects) {
+			paddle.draw(g);
+		}
 
+		// debug
 		g.fillRect((int) x, (int) y, 200, 200);
 	}
 
@@ -226,10 +236,14 @@ public class Pong implements Runnable {
 	 * Rewrite this method for your game
 	 */
 	protected void update() {
-		ball.update();
-		paddleBot.update();
-		paddleTop.update();
+		for (final PongObject ball : ballObjects) {
+			ball.update();
+		}
+		for (final PongObject paddle : paddleObjects) {
+			paddle.update();
+		}
 
+		// debug
 		x += 0.6;
 		y += 0.6;
 		if (x > Const.GUI_WIDTH.intValue() - 200) {
