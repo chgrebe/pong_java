@@ -109,7 +109,7 @@ public class Pong implements Runnable {
 		render();
 		try {
 			Thread.sleep(1000);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 
 		}
 		lastRender = System.currentTimeMillis();

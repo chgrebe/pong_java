@@ -9,6 +9,9 @@ import pong.update.Vector2D;
 
 public class Ball extends PongMoveableObject {
 	private final double maxAngleVariation = 15;
+	private final int maxHeight = Const.GUI_HEIGHT.intValue()
+			- (Const.PADDLE_HEIGHT.intValue() + Const.PADDLE_VERTICAL_DISTANCE.intValue());
+	private final int minHeight = Const.PADDLE_HEIGHT.intValue() + Const.PADDLE_VERTICAL_DISTANCE.intValue();
 	private final Random rand = new Random();
 
 	public Ball() {
@@ -32,14 +35,19 @@ public class Ball extends PongMoveableObject {
 
 	public Vector2D getStartAcceleration() {
 		final double[] roughDirections = { 60, 120, 240, 300 };
-		double angle = getRandomAngle(roughDirections, maxAngleVariation);
+		final double angle = getRandomAngle(roughDirections, maxAngleVariation);
 		return new Vector2D(angle, Const.BALL_INITIAL_SPEED.doubleValue());
 	}
 
 	@Override
 	public void update() {
-//		accelerate(acceleration);
+		detectCollision();
+		// accelerate(acceleration);
 		move();
+	}
+
+	private void detectCollision() {
+
 	}
 
 	private double getRandomAngle(final double[] roughDirections, final double maxVariation) {
