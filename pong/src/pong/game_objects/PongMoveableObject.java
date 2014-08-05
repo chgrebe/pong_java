@@ -1,5 +1,6 @@
 package pong.game_objects;
 
+import pong.constants.Const;
 import pong.update.PointDouble;
 import pong.update.Vector2D;
 
@@ -18,6 +19,11 @@ public abstract class PongMoveableObject extends PongObject {
 
 	public void move() {
 		pos = pos.add(PointDouble.parseFrom(acceleration));
+		if (pos.x < 0) {
+			pos.x = 0;
+		} else if(pos.x > Const.GUI_WIDTH.intValue() - width) {
+			pos.x = Const.GUI_WIDTH.intValue() - width;
+		}
 	}
 
 	public void slow(final double friction) {

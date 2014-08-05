@@ -40,7 +40,7 @@ public class Ball extends PongMoveableObject {
 
 	public Vector2D getStartAcceleration() {
 //		final double[] roughDirections = { 60, 120, 240, 300 };
-		final double[] roughDirections = { 30,30 };
+		final double[] roughDirections = { 120,120 };
 		final double angle = getRandomAngle(roughDirections, maxAngleVariation);
 		return new Vector2D(angle, Const.BALL_INITIAL_SPEED.doubleValue());
 	}
@@ -63,12 +63,12 @@ public class Ball extends PongMoveableObject {
 	private void bounceRight() {
 		if (acceleration.angle <= 180) {
 			System.out.println(acceleration);
-			acceleration.angle = 540 - acceleration.angle;
+			acceleration.angle = 180 - acceleration.angle;
 			System.out.println(acceleration);
 			System.out.println("1______________________");
 		} else if (acceleration.angle > 180) {
 			System.out.println(acceleration);
-			acceleration.angle = 360 - acceleration.angle;
+			acceleration.angle = 540 - acceleration.angle;
 			System.out.println(acceleration);
 			System.out.println("2______________________");
 		}
@@ -110,13 +110,13 @@ public class Ball extends PongMoveableObject {
 	}
 
 	private void updatePosition() {
-//		System.out.println("Acceleration before updatePosition()" + acceleration);
+		System.out.println("Acceleration before updatePosition()" + acceleration);
 
 		// player bot scores
-		if (pos.y < minHeight - 10) {
+		if (pos.y + (height / 2) < minHeight) {
 			System.out.println("minHeight");
 			// player top scores
-		} else if (pos.y > maxHeight + 10) {
+		} else if (pos.y + (height / 2) > maxHeight) {
 			System.out.println("maxHeight");
 			// hit the left border
 		} else if (pos.x <= 0) {
@@ -132,6 +132,8 @@ public class Ball extends PongMoveableObject {
 			bounceLeft();
 			// collided with a paddle
 		} else if (collisionDetected()) {
+			acceleration.length += Const.BALL_SPEED_INCREASE_ON_COLLISION.doubleValue();
+			
 			// pos.add(PointDouble.parseFrom(new Vector2D(-acceleration.angle,
 			// 20)));
 
@@ -140,16 +142,16 @@ public class Ball extends PongMoveableObject {
 			System.out.println("___________________________________________");
 			// top paddle
 			if (pos.y < Const.GUI_HEIGHT.doubleValue() / 2) {
-				if (acceleration.angle > 0 && acceleration.angle <= 90) {
+				if (acceleration.angle > 180 && acceleration.angle <= 270) {
 					acceleration.angle = 360 - acceleration.angle;
-				} else if (acceleration.angle > 90 && acceleration.angle <= 180) {
-					acceleration.angle = 180 + acceleration.angle;
+				} else if (acceleration.angle > 270 && acceleration.angle <= 360) {
+					acceleration.angle = 360 - acceleration.angle;
 				}
 				// bottom paddle
 			} else {
-				if (acceleration.angle > 180 && acceleration.angle <= 270) {
-					acceleration.angle = 270 - acceleration.angle;
-				} else if (acceleration.angle > 270 && acceleration.angle <= 360) {
+				if (acceleration.angle > 0 && acceleration.angle <= 90) {
+					acceleration.angle = 360 - acceleration.angle;
+				} else if (acceleration.angle > 90 && acceleration.angle <= 180) {
 					acceleration.angle = 360 - acceleration.angle;
 				}
 			}

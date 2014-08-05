@@ -20,5 +20,6 @@ public class Const {
 	public static final Double PADDLE_MAX_SPEED = Double.valueOf(5);
 	public static final Integer PADDLE_VERTICAL_DISTANCE = Integer.valueOf(20);
 	public static final Integer PADDLE_WIDTH = Integer.valueOf(100);
+	public static final Double BALL_SPEED_INCREASE_ON_COLLISION = Double.valueOf(0.3);
 
 }
