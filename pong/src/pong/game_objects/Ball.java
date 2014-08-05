@@ -39,8 +39,7 @@ public class Ball extends PongMoveableObject {
 	}
 
 	public Vector2D getStartAcceleration() {
-		// final double[] roughDirections = { 60, 120, 240, 300 };
-		final double[] roughDirections = { 120, 120 };
+		final double[] roughDirections = { 60, 120, 240, 300 };
 		final double angle = getRandomAngle(roughDirections, maxAngleVariation);
 		return new Vector2D(angle, Const.BALL_INITIAL_SPEED.doubleValue());
 	}
@@ -62,15 +61,9 @@ public class Ball extends PongMoveableObject {
 
 	private void bounceRight() {
 		if (acceleration.angle <= 180) {
-			System.out.println(acceleration);
 			acceleration.angle = 180 - acceleration.angle;
-			System.out.println(acceleration);
-			System.out.println("1______________________");
 		} else if (acceleration.angle > 180) {
-			System.out.println(acceleration);
 			acceleration.angle = 540 - acceleration.angle;
-			System.out.println(acceleration);
-			System.out.println("2______________________");
 		}
 		pos.x += 0;
 	}
@@ -87,11 +80,7 @@ public class Ball extends PongMoveableObject {
 			paddleShape = new Rectangle2D.Double(p.pos.x, p.pos.y, p.width, p.height);
 			paddleArea = new Area(paddleShape);
 			compArea = selfArea;
-			System.out.println(compArea.getBounds());
-			System.out.println(paddleArea.getBounds());
 			compArea.intersect(paddleArea);
-			System.out.println(compArea.getBounds());
-			System.out.println("_______________________________________");
 			if (!compArea.isEmpty()) {
 				return true;
 			}
@@ -110,23 +99,24 @@ public class Ball extends PongMoveableObject {
 	}
 
 	private void updatePosition() {
-		System.out.println("Acceleration before updatePosition()" + acceleration);
+		// System.out.println("Acceleration before updatePosition()" +
+		// acceleration);
 
 		// player bot scores
 		if (pos.y + (height / 2) < minHeight) {
-			System.out.println("minHeight");
+			// System.out.println("minHeight");
 			// player top scores
 		} else if (pos.y + (height / 2) > maxHeight) {
-			System.out.println("maxHeight");
+			// System.out.println("maxHeight");
 			// hit the left border
 		} else if (pos.x <= 0) {
-			System.out.println("bounceRight");
+			// System.out.println("bounceRight");
 			// pos.add(PointDouble.parseFrom(new Vector2D(-acceleration.angle,
 			// 20)));
 			bounceRight();
 			// hit the right border
 		} else if (pos.x >= Const.GUI_WIDTH.intValue() - width) {
-			System.out.println("bounceLeft");
+			// System.out.println("bounceLeft");
 			// pos.add(PointDouble.parseFrom(new Vector2D(-acceleration.angle,
 			// 20)));
 			bounceLeft();
@@ -137,9 +127,6 @@ public class Ball extends PongMoveableObject {
 			// pos.add(PointDouble.parseFrom(new Vector2D(-acceleration.angle,
 			// 20)));
 
-			System.out.println("___________________________________________");
-			System.out.println("Collision detected!");
-			System.out.println("___________________________________________");
 			// top paddle
 			if (pos.y < Const.GUI_HEIGHT.doubleValue() / 2) {
 				if (acceleration.angle > 180 && acceleration.angle <= 270) {
