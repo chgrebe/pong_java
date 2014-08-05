@@ -161,14 +161,13 @@ public class Pong implements Runnable {
 			} else {
 				try {
 					final long nextRenderIn = (long) Math.ceil(desiredGUIDelta - deltaRender);
-					long nextUpdateIn = (long) Math.ceil(desiredGameDelta - accumulatorUpdate);
+					long nextUpdateIn = (long) Math.ceil((desiredGameDelta / gameSpeed) - accumulatorUpdate);
 					// System.out.println("Skipped rendering, instead sleeping for "
 					// + Math.min(nextRenderIn, nextUpdateIn) +
 					// "ms.");
 					if (nextUpdateIn < 0) {
 						nextUpdateIn = 1;
 					}
-
 					Thread.sleep(Math.min(nextRenderIn, nextUpdateIn));
 					// Thread.sleep(nextRenderIn);
 

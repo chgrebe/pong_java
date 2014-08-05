@@ -19,6 +19,8 @@ public class PaddleBot extends Paddle {
 		} else if (acceleration.length > 0) {
 			slow(friction);
 		}
+//		System.out.println("Bot Paddle acceleration before move: " + acceleration);
+//		System.out.println("Bot Paddle position before move: " + pos);
 		move();
 		checkGameBorders();
 	}

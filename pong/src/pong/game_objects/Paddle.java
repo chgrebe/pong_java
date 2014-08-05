@@ -23,7 +23,7 @@ public abstract class Paddle extends PongMoveableObject {
 	}
 
 	protected void checkGameBorders() {
-		if (pos.x < 0) {
+		if (pos.x <= 0) {
 			pos.x = 0;
 			acceleration.length = 0;
 		}

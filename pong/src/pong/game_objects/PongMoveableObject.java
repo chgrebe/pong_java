@@ -21,7 +21,7 @@ public abstract class PongMoveableObject extends PongObject {
 		pos = pos.add(PointDouble.parseFrom(acceleration));
 		if (pos.x < 0) {
 			pos.x = 0;
-		} else if(pos.x > Const.GUI_WIDTH.intValue() - width) {
+		} else if (pos.x > Const.GUI_WIDTH.intValue() - width) {
 			pos.x = Const.GUI_WIDTH.intValue() - width;
 		}
 	}
